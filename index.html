@@ -11,7 +11,6 @@ body{
   margin:0;
   color:#1d1d1f;
   text-align:center;
-  /* Fondo con imagen local */
   background-image: url('photos/fondo.jpg');
   background-size: cover;
   background-position: center;
@@ -23,6 +22,11 @@ section{
   opacity:0;
   transform:translateY(40px);
   transition:1s;
+  background: rgba(255,255,255,0.3);
+  backdrop-filter: blur(3px);
+  border-radius: 15px;
+  margin: 20px auto;
+  max-width: 900px;
 }
 section.visible{
   opacity:1;
@@ -35,21 +39,23 @@ section.visible{
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  background: rgba(255,255,255,0.5);
-  backdrop-filter: blur(5px);
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(4px);
   position:relative;
+  border-radius: 15px;
 }
 
 h1{ font-size:60px; margin:10px 0; }
 h2{ font-size:32px; }
-p{ font-size:18px; color:#4d4d52; }
+p{ font-size:18px; color:#1d1d1f; }
 
 .card{
   max-width:700px;
   margin:auto;
   padding:40px;
   border-radius:20px;
-  background:rgba(255,255,255,0.85);
+  background:rgba(255,255,255,0.35);
+  backdrop-filter: blur(3px);
   box-shadow:0 20px 40px rgba(0,0,0,0.1);
 }
 
@@ -65,7 +71,6 @@ p{ font-size:18px; color:#4d4d52; }
   cursor:pointer;
 }
 
-/* Botón de enlace simple sin fondo */
 .linkButton{
   margin:10px;
   padding:10px 20px;
@@ -97,7 +102,6 @@ input{
 }
 .personBox{ margin-top:25px; padding-top:15px; border-top:1px solid #eee; }
 
-/* Música */
 .musicButton{
   position:fixed; bottom:25px; right:25px;
   width:55px; height:55px; border-radius:50%; border:none;
@@ -107,7 +111,6 @@ input{
 }
 .musicButton:hover{ transform:scale(1.1); }
 
-/* Palomas */
 .doves { position:absolute; top:20px; left:0; width:100%; pointer-events:none; }
 .dove{
   width:20px; height:20px; background:white; border-radius:50%;
@@ -125,11 +128,67 @@ input{
   100% { transform: translateX(100vw) translateY(0) rotate(0deg); }
 }
 
-/* Título fijo arriba */
 .fixedTitle{
   position:absolute; top:20px; left:50%; transform:translateX(-50%);
   width:calc(100% - 40px); text-align:center; font-size:28px;
   font-weight:bold; color:black; transition: opacity 0.5s; z-index:100;
+}
+
+.mapButtons{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:15px;
+}
+.mapButtons a{
+  text-decoration:none;
+  background:black;
+  color:white;
+  padding:10px 15px;
+  border-radius:8px;
+  font-size:14px;
+}
+
+/* Itinerario centrado vertical con iconos a la izquierda */
+.itinerary{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:25px;
+}
+.itinerary-point{
+  display:flex;
+  flex-direction:row;
+  align-items:flex-start;
+  gap:15px;
+}
+.itinerary-icon{
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.itinerary-icon svg{
+  width:28px;
+  height:28px;
+}
+.itinerary-text{
+  font-size:18px;
+  font-weight:500;
+}
+.itinerary-time{
+  font-size:14px;
+  color:#555;
+  margin-top:2px;
+}
+.itinerary-text-container{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
 }
 </style>
 </head>
@@ -137,8 +196,9 @@ input{
 
 <div class="fixedTitle" id="fixedTitle">Nuestra próxima aventura juntos</div>
 
+<!-- Música actualizada -->
 <audio id="music" loop>
-<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8f0a7eac3.mp3">
+  <source src="music/intro.mp3" type="audio/mpeg">
 </audio>
 
 <section class="hero visible">
@@ -150,10 +210,7 @@ input{
 
 <h1>Ainoa & Andres</h1>
 <p>3 de Abril de 2027</p>
-
-<!-- Botón acceso directo a Confirmar Asistencia estilo texto negro -->
 <a href="#confirmarAsistencia" class="linkButton">Confirmar asistencia</a>
-
 <div class="countdown" id="countdown"></div>
 </section>
 
@@ -163,15 +220,50 @@ input{
 <p><b>Ceremonia</b><br>3 Abril 2027 · 17:00</p>
 <p><b>Lugar</b><br>Finca Jardines del Lago<br>Barcelona</p>
 <iframe src="https://www.google.com/maps?q=Barcelona&output=embed" width="100%" height="300" style="border:0"></iframe>
+
+<div class="mapButtons">
+  <a href="https://www.google.com/maps?q=Barcelona" target="_blank">Abrir en Maps</a>
+  <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Ainoa+y+Andres&dates=20270403T170000/20270403T230000&location=Barcelona" target="_blank">Añadir al calendario</a>
+</div>
 </div>
 </section>
 
 <section>
 <div class="card">
-<h2>Añadir al calendario</h2>
-<a class="button" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Ainoa+y+Andres&dates=20270403T170000/20270403T230000&location=Barcelona" target="_blank">
-Añadir a Google Calendar
-</a>
+<h2>Itinerario</h2>
+<div class="itinerary">
+
+<div class="itinerary-point">
+  <div class="itinerary-icon">
+    <svg viewBox="0 0 24 24" fill="black"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM12 11.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5 14.5 7.62 14.5 9 13.38 11.5 12 11.5z"/></svg>
+  </div>
+  <div class="itinerary-text-container">
+    <div class="itinerary-text">Llegada</div>
+    <div class="itinerary-time">16:00h</div>
+  </div>
+</div>
+
+<div class="itinerary-point">
+  <div class="itinerary-icon">
+    <svg viewBox="0 0 24 24" fill="black"><path d="M8 2C7.45 2 7 2.45 7 3v9.59l-2.3-2.3c-.2-.2-.51-.2-.71 0s-.2.51 0 .71l3.5 3.5c.2.2.51.2.71 0l3.5-3.5c.2-.2.2-.51 0-.71s-.51-.2-.71 0L10 12.59V3c0-.55-.45-1-1-1z"/></svg>
+  </div>
+  <div class="itinerary-text-container">
+    <div class="itinerary-text">Cena</div>
+    <div class="itinerary-time">20:00h</div>
+  </div>
+</div>
+
+<div class="itinerary-point">
+  <div class="itinerary-icon">
+    <svg viewBox="0 0 24 24" fill="black"><path d="M2.5 19l19-7-7-7-7 7 7 7-7 7z"/></svg>
+  </div>
+  <div class="itinerary-text-container">
+    <div class="itinerary-text">Despedida</div>
+    <div class="itinerary-time">2:30h</div>
+  </div>
+</div>
+
+</div>
 </div>
 </section>
 
@@ -194,7 +286,6 @@ Añadir a Google Calendar
 </div>
 <div id="hijosContainer"></div>
 <br><br>
-<!-- Botón estilo calendario -->
 <button class="button" onclick="confirmar()">Confirmar por WhatsApp</button>
 </div>
 </section>
@@ -209,10 +300,13 @@ Añadir a Google Calendar
 <script>
 let music=document.getElementById("music");
 let musicBtn=document.getElementById("musicBtn");
-let musicPlaying=false;
+let musicPlaying=true;
+music.play();
+musicBtn.innerHTML="🔊";
+
 function toggleMusic(){
-if(musicPlaying){ music.pause(); musicBtn.innerHTML="🔇"; musicPlaying=false; }
-else{ music.play(); musicBtn.innerHTML="🔊"; musicPlaying=true; }
+  if(musicPlaying){ music.pause(); musicBtn.innerHTML="🔇"; musicPlaying=false; }
+  else{ music.play(); musicBtn.innerHTML="🔊"; musicPlaying=true; }
 }
 
 window.addEventListener('scroll', function() {
@@ -222,12 +316,12 @@ window.addEventListener('scroll', function() {
 
 var weddingDate=new Date("Apr 3, 2027 17:00:00").getTime();
 setInterval(function(){
-var now=new Date().getTime();
-var distance=weddingDate-now;
-var days=Math.floor(distance/(1000*60*60*24));
-var hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
-var minutes=Math.floor((distance%(1000*60*60))/(1000*60));
-document.getElementById("countdown").innerHTML=days+" días "+hours+"h "+minutes+"m";
+  var now=new Date().getTime();
+  var distance=weddingDate-now;
+  var days=Math.floor(distance/(1000*60*60*24));
+  var hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+  var minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+  document.getElementById("countdown").innerHTML=days+" días "+hours+"h "+minutes+"m";
 },1000);
 
 let adultos=1; let hijos=0;
@@ -238,20 +332,20 @@ function renderHijos(){ let c=document.getElementById("hijosContainer"); c.inner
 renderAdultos();
 
 function confirmar(){
-let telefono="34691729509"; let mensaje="Confirmación boda 💍%0A%0A";
-mensaje+="Adultos: "+adultos+"%0A";
-for(let i=1;i<=adultos;i++){
-let n=document.getElementById("adultoNombre"+i).value;
-let a=document.getElementById("adultoAlergia"+i).value;
-mensaje+="Adulto "+i+": "+n+"%0A"; mensaje+="Alergias: "+(a||"Ninguna")+"%0A%0A";
-}
-mensaje+="Hijos: "+hijos+"%0A";
-for(let i=1;i<=hijos;i++){
-let n=document.getElementById("hijoNombre"+i).value;
-let a=document.getElementById("hijoAlergia"+i).value;
-mensaje+="Hijo "+i+": "+n+"%0A"; mensaje+="Alergias: "+(a||"Ninguna")+"%0A%0A";
-}
-window.open("https://wa.me/"+telefono+"?text="+mensaje);
+  let telefono="34691729509"; let mensaje="Confirmación boda 💍%0A%0A";
+  mensaje+="Adultos: "+adultos+"%0A";
+  for(let i=1;i<=adultos;i++){
+    let n=document.getElementById("adultoNombre"+i).value;
+    let a=document.getElementById("adultoAlergia"+i).value;
+    mensaje+="Adulto "+i+": "+n+"%0A"; mensaje+="Alergias: "+(a||"Ninguna")+"%0A%0A";
+  }
+  mensaje+="Hijos: "+hijos+"%0A";
+  for(let i=1;i<=hijos;i++){
+    let n=document.getElementById("hijoNombre"+i).value;
+    let a=document.getElementById("hijoAlergia"+i).value;
+    mensaje+="Hijo "+i+": "+n+"%0A"; mensaje+="Alergias: "+(a||"Ninguna")+"%0A%0A";
+  }
+  window.open("https://wa.me/"+telefono+"?text="+mensaje);
 }
 
 const observer=new IntersectionObserver(entries=>{ entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add("visible"); } }); });
