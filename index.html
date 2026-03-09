@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boda Ainoa & Andres</title>
+
+<style>
+
+body{
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+margin:0;
+background:#e9e9ec;
+color:#1d1d1f;
+text-align:center;
+}
+
+section{
+padding:80px 20px;
+opacity:0;
+transform:translateY(40px);
+transition:1s;
+}
+
+section.visible{
+opacity:1;
+transform:translateY(0);
+}
+
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:linear-gradient(#e9e9ec,#dcdce1);
+}
+
+h1{
+font-size:60px;
+margin:10px 0;
+}
+
+h2{
+font-size:32px;
+}
+
+p{
+font-size:18px;
+color:#4d4d52;
+}
+
+.card{
+max-width:700px;
+margin:auto;
+padding:40px;
+border-radius:20px;
+background:white;
+box-shadow:0 20px 40px rgba(0,0,0,0.1);
+}
+
+.button{
+margin:10px;
+padding:10px 20px;
+border-radius:20px;
+background:black;
+color:white;
+text-decoration:none;
+font-size:14px;
+border:none;
+cursor:pointer;
+}
+
+.counter{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:12px;
+margin-top:10px;
+}
+
+.counter button{
+width:30px;
+height:30px;
+border-radius:6px;
+border:none;
+font-size:18px;
+background:#bcbcc2;
+color:white;
+cursor:pointer;
+}
+
+.countdown{
+font-size:36px;
+font-weight:600;
+margin-top:20px;
+}
+
+iframe{
+border-radius:15px;
+margin-top:20px;
+}
+
+input{
+padding:12px;
+width:80%;
+border-radius:10px;
+border:1px solid #ddd;
+margin-top:10px;
+font-size:16px;
+}
+
+.personBox{
+margin-top:25px;
+padding-top:15px;
+border-top:1px solid #eee;
+}
+
+/* BOTÓN MÚSICA */
+
+.musicButton{
+
+position:fixed;
+bottom:25px;
+right:25px;
+
+width:55px;
+height:55px;
+
+border-radius:50%;
+border:none;
+
+background:black;
+color:white;
+
+font-size:22px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+cursor:pointer;
+
+box-shadow:0 10px 20px rgba(0,0,0,0.25);
+
+transition:0.3s;
+
+}
+
+.musicButton:hover{
+transform:scale(1.1);
+}
+
+</style>
+</head>
+
+<body>
+
+<audio id="music" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8f0a7eac3.mp3">
+</audio>
+
+<section class="hero visible">
+
+<h2>Nos casamos</h2>
+<h1>Ainoa & Andres</h1>
+<p>3 de Abril de 2027</p>
+
+<div class="countdown" id="countdown"></div>
+
+</section>
+
+<section>
+
+<div class="card">
+
+<h2>Detalles</h2>
+
+<p><b>Ceremonia</b><br>3 Abril 2027 · 17:00</p>
+
+<p><b>Lugar</b><br>Finca Jardines del Lago<br>Barcelona</p>
+
+<iframe
+src="https://www.google.com/maps?q=Barcelona&output=embed"
+width="100%"
+height="300"
+style="border:0">
+</iframe>
+
+</div>
+
+</section>
+
+<section>
+
+<div class="card">
+
+<h2>Añadir al calendario</h2>
+
+<a class="button"
+href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Ainoa+y+Andres&dates=20270403T170000/20270403T230000&location=Barcelona"
+target="_blank">
+
+Añadir a Google Calendar
+
+</a>
+
+</div>
+
+</section>
+
+<section>
+
+<div class="card">
+
+<h2>Confirmar asistencia</h2>
+
+<p><b>Adultos</b></p>
+
+<div class="counter">
+<button onclick="cambiarAdultos(-1)">−</button>
+<span id="adultosCount">1</span>
+<button onclick="cambiarAdultos(1)">+</button>
+</div>
+
+<div id="adultosContainer"></div>
+
+<br>
+
+<p><b>Hijos</b></p>
+
+<div class="counter">
+<button onclick="cambiarHijos(-1)">−</button>
+<span id="hijosCount">0</span>
+<button onclick="cambiarHijos(1)">+</button>
+</div>
+
+<div id="hijosContainer"></div>
+
+<br><br>
+
+<button class="button" onclick="confirmar()">Confirmar por WhatsApp</button>
+
+</div>
+
+</section>
+
+<section>
+<p>Con amor</p>
+<h2>Ainoa & Andres</h2>
+</section>
+
+
+<button class="musicButton" onclick="toggleMusic()" id="musicBtn">🔇</button>
+
+
+<script>
+
+let music=document.getElementById("music");
+let musicBtn=document.getElementById("musicBtn");
+let musicPlaying=false;
+
+function toggleMusic(){
+
+if(musicPlaying){
+
+music.pause();
+musicBtn.innerHTML="🔇";
+musicPlaying=false;
+
+}else{
+
+music.play();
+musicBtn.innerHTML="🔊";
+musicPlaying=true;
+
+}
+
+}
+
+
+var weddingDate=new Date("Apr 3, 2027 17:00:00").getTime();
+
+setInterval(function(){
+
+var now=new Date().getTime();
+var distance=weddingDate-now;
+
+var days=Math.floor(distance/(1000*60*60*24));
+var hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+var minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+
+document.getElementById("countdown").innerHTML=
+days+" días "+hours+"h "+minutes+"m";
+
+},1000);
+
+
+let adultos=1;
+let hijos=0;
+
+function cambiarAdultos(v){
+
+adultos+=v;
+if(adultos<1) adultos=1;
+if(adultos>10) adultos=10;
+
+document.getElementById("adultosCount").innerText=adultos;
+renderAdultos();
+
+}
+
+function cambiarHijos(v){
+
+hijos+=v;
+if(hijos<0) hijos=0;
+if(hijos>10) hijos=10;
+
+document.getElementById("hijosCount").innerText=hijos;
+renderHijos();
+
+}
+
+function renderAdultos(){
+
+let c=document.getElementById("adultosContainer");
+c.innerHTML="";
+
+for(let i=1;i<=adultos;i++){
+
+c.innerHTML+=`
+<div class="personBox">
+<b>Adulto ${i}</b><br>
+<input id="adultoNombre${i}" placeholder="Nombre"><br>
+<input id="adultoAlergia${i}" placeholder="Alergias o intolerancias">
+</div>
+`;
+
+}
+
+}
+
+function renderHijos(){
+
+let c=document.getElementById("hijosContainer");
+c.innerHTML="";
+
+for(let i=1;i<=hijos;i++){
+
+c.innerHTML+=`
+<div class="personBox">
+<b>Hijo ${i}</b><br>
+<input id="hijoNombre${i}" placeholder="Nombre"><br>
+<input id="hijoAlergia${i}" placeholder="Alergias o intolerancias">
+</div>
+`;
+
+}
+
+}
+
+renderAdultos();
+
+function confirmar(){
+
+let telefono="34691729509";
+
+let mensaje="Confirmación boda 💍%0A%0A";
+
+mensaje+="Adultos: "+adultos+"%0A";
+
+for(let i=1;i<=adultos;i++){
+
+let n=document.getElementById("adultoNombre"+i).value;
+let a=document.getElementById("adultoAlergia"+i).value;
+
+mensaje+="Adulto "+i+": "+n+"%0A";
+mensaje+="Alergias: "+(a||"Ninguna")+"%0A%0A";
+
+}
+
+mensaje+="Hijos: "+hijos+"%0A";
+
+for(let i=1;i<=hijos;i++){
+
+let n=document.getElementById("hijoNombre"+i).value;
+let a=document.getElementById("hijoAlergia"+i).value;
+
+mensaje+="Hijo "+i+": "+n+"%0A";
+mensaje+="Alergias: "+(a||"Ninguna")+"%0A%0A";
+
+}
+
+let url="https://wa.me/"+telefono+"?text="+mensaje;
+
+window.open(url);
+
+}
+
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add("visible");
+}
+});
+});
+
+document.querySelectorAll("section").forEach(section=>{
+observer.observe(section);
+});
+
+</script>
+
+</body>
+</html>
