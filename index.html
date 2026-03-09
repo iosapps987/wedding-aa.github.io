@@ -6,243 +6,197 @@
 <title>Boda Ainoa & Andres</title>
 
 <style>
-
 body{
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-margin:0;
-background:#e9e9ec;
-color:#1d1d1f;
-text-align:center;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  margin:0;
+  color:#1d1d1f;
+  text-align:center;
+  /* Fondo con imagen local */
+  background-image: url('photos/fondo.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
 }
 
 section{
-padding:80px 20px;
-opacity:0;
-transform:translateY(40px);
-transition:1s;
+  padding:50px 20px;
+  opacity:0;
+  transform:translateY(40px);
+  transition:1s;
 }
-
 section.visible{
-opacity:1;
-transform:translateY(0);
+  opacity:1;
+  transform:translateY(0);
 }
 
 .hero{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-background:linear-gradient(#e9e9ec,#dcdce1);
+  min-height:80vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(5px);
+  position:relative;
 }
 
-h1{
-font-size:60px;
-margin:10px 0;
-}
-
-h2{
-font-size:32px;
-}
-
-p{
-font-size:18px;
-color:#4d4d52;
-}
+h1{ font-size:60px; margin:10px 0; }
+h2{ font-size:32px; }
+p{ font-size:18px; color:#4d4d52; }
 
 .card{
-max-width:700px;
-margin:auto;
-padding:40px;
-border-radius:20px;
-background:white;
-box-shadow:0 20px 40px rgba(0,0,0,0.1);
+  max-width:700px;
+  margin:auto;
+  padding:40px;
+  border-radius:20px;
+  background:rgba(255,255,255,0.85);
+  box-shadow:0 20px 40px rgba(0,0,0,0.1);
 }
 
 .button{
-margin:10px;
-padding:10px 20px;
-border-radius:20px;
-background:black;
-color:white;
-text-decoration:none;
-font-size:14px;
-border:none;
-cursor:pointer;
+  margin:10px;
+  padding:10px 20px;
+  border-radius:20px;
+  background:black;
+  color:white;
+  text-decoration:none;
+  font-size:14px;
+  border:none;
+  cursor:pointer;
+}
+
+/* Botón de enlace simple sin fondo */
+.linkButton{
+  margin:10px;
+  padding:10px 20px;
+  border:none;
+  background:none;
+  color:black;
+  font-size:16px;
+  cursor:pointer;
+  text-decoration:underline;
 }
 
 .counter{
-display:flex;
-justify-content:center;
-align-items:center;
-gap:12px;
-margin-top:10px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+  margin-top:10px;
 }
-
 .counter button{
-width:30px;
-height:30px;
-border-radius:6px;
-border:none;
-font-size:18px;
-background:#bcbcc2;
-color:white;
-cursor:pointer;
+  width:30px; height:30px; border-radius:6px; border:none;
+  font-size:18px; background:#bcbcc2; color:white; cursor:pointer;
 }
 
-.countdown{
-font-size:36px;
-font-weight:600;
-margin-top:20px;
-}
-
-iframe{
-border-radius:15px;
-margin-top:20px;
-}
-
+.countdown{ font-size:36px; font-weight:600; margin-top:20px; }
+iframe{ border-radius:15px; margin-top:20px; }
 input{
-padding:12px;
-width:80%;
-border-radius:10px;
-border:1px solid #ddd;
-margin-top:10px;
-font-size:16px;
+  padding:12px; width:80%; border-radius:10px; border:1px solid #ddd;
+  margin-top:10px; font-size:16px;
 }
+.personBox{ margin-top:25px; padding-top:15px; border-top:1px solid #eee; }
 
-.personBox{
-margin-top:25px;
-padding-top:15px;
-border-top:1px solid #eee;
-}
-
-/* BOTÓN MÚSICA */
-
+/* Música */
 .musicButton{
+  position:fixed; bottom:25px; right:25px;
+  width:55px; height:55px; border-radius:50%; border:none;
+  background:black; color:white; font-size:22px;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; box-shadow:0 10px 20px rgba(0,0,0,0.25); transition:0.3s;
+}
+.musicButton:hover{ transform:scale(1.1); }
 
-position:fixed;
-bottom:25px;
-right:25px;
+/* Palomas */
+.doves { position:absolute; top:20px; left:0; width:100%; pointer-events:none; }
+.dove{
+  width:20px; height:20px; background:white; border-radius:50%;
+  position:absolute; opacity:0.8; animation: fly linear infinite;
+}
+.dove:nth-child(1){ left:-30px; animation-duration:15s; top:50px; }
+.dove:nth-child(2){ left:-50px; animation-duration:18s; top:80px; }
+.dove:nth-child(3){ left:-40px; animation-duration:12s; top:110px; }
 
-width:55px;
-height:55px;
-
-border-radius:50%;
-border:none;
-
-background:black;
-color:white;
-
-font-size:22px;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-cursor:pointer;
-
-box-shadow:0 10px 20px rgba(0,0,0,0.25);
-
-transition:0.3s;
-
+@keyframes fly {
+  0% { transform: translateX(0) translateY(0) rotate(0deg); }
+  25% { transform: translateX(25vw) translateY(-10px) rotate(10deg); }
+  50% { transform: translateX(50vw) translateY(5px) rotate(-10deg); }
+  75% { transform: translateX(75vw) translateY(-5px) rotate(10deg); }
+  100% { transform: translateX(100vw) translateY(0) rotate(0deg); }
 }
 
-.musicButton:hover{
-transform:scale(1.1);
+/* Título fijo arriba */
+.fixedTitle{
+  position:absolute; top:20px; left:50%; transform:translateX(-50%);
+  width:calc(100% - 40px); text-align:center; font-size:28px;
+  font-weight:bold; color:black; transition: opacity 0.5s; z-index:100;
 }
-
 </style>
 </head>
-
 <body>
+
+<div class="fixedTitle" id="fixedTitle">Nuestra próxima aventura juntos</div>
 
 <audio id="music" loop>
 <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8f0a7eac3.mp3">
 </audio>
 
 <section class="hero visible">
+<div class="doves">
+  <div class="dove"></div>
+  <div class="dove"></div>
+  <div class="dove"></div>
+</div>
 
-<h2>Nos casamos</h2>
 <h1>Ainoa & Andres</h1>
 <p>3 de Abril de 2027</p>
 
+<!-- Botón acceso directo a Confirmar Asistencia estilo texto negro -->
+<a href="#confirmarAsistencia" class="linkButton">Confirmar asistencia</a>
+
 <div class="countdown" id="countdown"></div>
-
 </section>
 
 <section>
-
 <div class="card">
-
 <h2>Detalles</h2>
-
 <p><b>Ceremonia</b><br>3 Abril 2027 · 17:00</p>
-
 <p><b>Lugar</b><br>Finca Jardines del Lago<br>Barcelona</p>
-
-<iframe
-src="https://www.google.com/maps?q=Barcelona&output=embed"
-width="100%"
-height="300"
-style="border:0">
-</iframe>
-
+<iframe src="https://www.google.com/maps?q=Barcelona&output=embed" width="100%" height="300" style="border:0"></iframe>
 </div>
-
 </section>
 
 <section>
-
 <div class="card">
-
 <h2>Añadir al calendario</h2>
-
-<a class="button"
-href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Ainoa+y+Andres&dates=20270403T170000/20270403T230000&location=Barcelona"
-target="_blank">
-
+<a class="button" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Ainoa+y+Andres&dates=20270403T170000/20270403T230000&location=Barcelona" target="_blank">
 Añadir a Google Calendar
-
 </a>
-
 </div>
-
 </section>
 
-<section>
-
+<section id="confirmarAsistencia">
 <div class="card">
-
 <h2>Confirmar asistencia</h2>
-
 <p><b>Adultos</b></p>
-
 <div class="counter">
-<button onclick="cambiarAdultos(-1)">−</button>
-<span id="adultosCount">1</span>
-<button onclick="cambiarAdultos(1)">+</button>
+  <button onclick="cambiarAdultos(-1)">−</button>
+  <span id="adultosCount">1</span>
+  <button onclick="cambiarAdultos(1)">+</button>
 </div>
-
 <div id="adultosContainer"></div>
-
 <br>
-
 <p><b>Hijos</b></p>
-
 <div class="counter">
-<button onclick="cambiarHijos(-1)">−</button>
-<span id="hijosCount">0</span>
-<button onclick="cambiarHijos(1)">+</button>
+  <button onclick="cambiarHijos(-1)">−</button>
+  <span id="hijosCount">0</span>
+  <button onclick="cambiarHijos(1)">+</button>
 </div>
-
 <div id="hijosContainer"></div>
-
 <br><br>
-
+<!-- Botón estilo calendario -->
 <button class="button" onclick="confirmar()">Confirmar por WhatsApp</button>
-
 </div>
-
 </section>
 
 <section>
@@ -250,165 +204,58 @@ Añadir a Google Calendar
 <h2>Ainoa & Andres</h2>
 </section>
 
-
 <button class="musicButton" onclick="toggleMusic()" id="musicBtn">🔇</button>
 
-
 <script>
-
 let music=document.getElementById("music");
 let musicBtn=document.getElementById("musicBtn");
 let musicPlaying=false;
-
 function toggleMusic(){
-
-if(musicPlaying){
-
-music.pause();
-musicBtn.innerHTML="🔇";
-musicPlaying=false;
-
-}else{
-
-music.play();
-musicBtn.innerHTML="🔊";
-musicPlaying=true;
-
+if(musicPlaying){ music.pause(); musicBtn.innerHTML="🔇"; musicPlaying=false; }
+else{ music.play(); musicBtn.innerHTML="🔊"; musicPlaying=true; }
 }
 
-}
-
+window.addEventListener('scroll', function() {
+  const title = document.getElementById('fixedTitle');
+  title.style.opacity = (window.scrollY>50)?0:1;
+});
 
 var weddingDate=new Date("Apr 3, 2027 17:00:00").getTime();
-
 setInterval(function(){
-
 var now=new Date().getTime();
 var distance=weddingDate-now;
-
 var days=Math.floor(distance/(1000*60*60*24));
 var hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
 var minutes=Math.floor((distance%(1000*60*60))/(1000*60));
-
-document.getElementById("countdown").innerHTML=
-days+" días "+hours+"h "+minutes+"m";
-
+document.getElementById("countdown").innerHTML=days+" días "+hours+"h "+minutes+"m";
 },1000);
 
-
-let adultos=1;
-let hijos=0;
-
-function cambiarAdultos(v){
-
-adultos+=v;
-if(adultos<1) adultos=1;
-if(adultos>10) adultos=10;
-
-document.getElementById("adultosCount").innerText=adultos;
-renderAdultos();
-
-}
-
-function cambiarHijos(v){
-
-hijos+=v;
-if(hijos<0) hijos=0;
-if(hijos>10) hijos=10;
-
-document.getElementById("hijosCount").innerText=hijos;
-renderHijos();
-
-}
-
-function renderAdultos(){
-
-let c=document.getElementById("adultosContainer");
-c.innerHTML="";
-
-for(let i=1;i<=adultos;i++){
-
-c.innerHTML+=`
-<div class="personBox">
-<b>Adulto ${i}</b><br>
-<input id="adultoNombre${i}" placeholder="Nombre"><br>
-<input id="adultoAlergia${i}" placeholder="Alergias o intolerancias">
-</div>
-`;
-
-}
-
-}
-
-function renderHijos(){
-
-let c=document.getElementById("hijosContainer");
-c.innerHTML="";
-
-for(let i=1;i<=hijos;i++){
-
-c.innerHTML+=`
-<div class="personBox">
-<b>Hijo ${i}</b><br>
-<input id="hijoNombre${i}" placeholder="Nombre"><br>
-<input id="hijoAlergia${i}" placeholder="Alergias o intolerancias">
-</div>
-`;
-
-}
-
-}
-
+let adultos=1; let hijos=0;
+function cambiarAdultos(v){ adultos=Math.min(10,Math.max(1,adultos+v)); document.getElementById("adultosCount").innerText=adultos; renderAdultos(); }
+function cambiarHijos(v){ hijos=Math.min(10,Math.max(0,hijos+v)); document.getElementById("hijosCount").innerText=hijos; renderHijos(); }
+function renderAdultos(){ let c=document.getElementById("adultosContainer"); c.innerHTML=""; for(let i=1;i<=adultos;i++){ c.innerHTML+=`<div class="personBox"><b>Adulto ${i}</b><br><input id="adultoNombre${i}" placeholder="Nombre"><br><input id="adultoAlergia${i}" placeholder="Alergias o intolerancias"></div>`; } }
+function renderHijos(){ let c=document.getElementById("hijosContainer"); c.innerHTML=""; for(let i=1;i<=hijos;i++){ c.innerHTML+=`<div class="personBox"><b>Hijo ${i}</b><br><input id="hijoNombre${i}" placeholder="Nombre"><br><input id="hijoAlergia${i}" placeholder="Alergias o intolerancias"></div>`; } }
 renderAdultos();
 
 function confirmar(){
-
-let telefono="34691729509";
-
-let mensaje="Confirmación boda 💍%0A%0A";
-
+let telefono="34691729509"; let mensaje="Confirmación boda 💍%0A%0A";
 mensaje+="Adultos: "+adultos+"%0A";
-
 for(let i=1;i<=adultos;i++){
-
 let n=document.getElementById("adultoNombre"+i).value;
 let a=document.getElementById("adultoAlergia"+i).value;
-
-mensaje+="Adulto "+i+": "+n+"%0A";
-mensaje+="Alergias: "+(a||"Ninguna")+"%0A%0A";
-
+mensaje+="Adulto "+i+": "+n+"%0A"; mensaje+="Alergias: "+(a||"Ninguna")+"%0A%0A";
 }
-
 mensaje+="Hijos: "+hijos+"%0A";
-
 for(let i=1;i<=hijos;i++){
-
 let n=document.getElementById("hijoNombre"+i).value;
 let a=document.getElementById("hijoAlergia"+i).value;
-
-mensaje+="Hijo "+i+": "+n+"%0A";
-mensaje+="Alergias: "+(a||"Ninguna")+"%0A%0A";
-
+mensaje+="Hijo "+i+": "+n+"%0A"; mensaje+="Alergias: "+(a||"Ninguna")+"%0A%0A";
+}
+window.open("https://wa.me/"+telefono+"?text="+mensaje);
 }
 
-let url="https://wa.me/"+telefono+"?text="+mensaje;
-
-window.open(url);
-
-}
-
-const observer=new IntersectionObserver(entries=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add("visible");
-}
-});
-});
-
-document.querySelectorAll("section").forEach(section=>{
-observer.observe(section);
-});
-
+const observer=new IntersectionObserver(entries=>{ entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add("visible"); } }); });
+document.querySelectorAll("section").forEach(section=>{ observer.observe(section); });
 </script>
 
 </body>
